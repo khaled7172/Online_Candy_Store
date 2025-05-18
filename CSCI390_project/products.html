@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Our Products</title>
+    <style>
+      .product-image {
+        height: 10rem; /* 160px, same as h-40 */
+        width: 100%;
+        object-fit: cover;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+        display: block;
+      }
+      .product-card {
+    border: 5px solid #c00f0f;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 6px  -7px 6px rgb(135,31,31);
+    
+    transition: transform 0.2s;
+}
+    </style>
+</head>
+<body class="relative">
+  <img src="images/background_image.avif" alt="Candy Background" class="fixed inset-0 w-full h-full object-cover opacity-20 pointer-events-none select-none z-0">
+  <div class="relative z-10">
+    <nav class="bg-pink-600 shadow-lg">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-between">
+                    <a href="index.html" class="flex items-center gap-2">
+                        <img src="images/fav_icon.png" alt="Logo" class="w-8 h-8 rounded-full">
+                        <span class="text-white font-bold text-lg">Poppin Candy</span>
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="index.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-home">Home</a>
+                        <a href="products.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-products">Products</a>
+                        <a href="about.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-about">About Us</a>
+                        <a href="contact.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="pt-16">
+        <h1 class="text-4xl text-center font-extrabold mb-6 text-pink-700">Our Delicious Candy Selection</h1>
+        <div id="product-list" class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto py-8">
+            <!-- Products will be loaded dynamically from the database here -->
+        </div>
+    </div>
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="flex flex-col items-center gap-2">
+            <span>&copy; 2025 Poppin Candy. All rights reserved.</span>
+            <div class="flex gap-4">
+                <a href="https://www.instagram.com/poppincandyofficial/" class="hover:text-pink-300" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.facebook.com/poppincandyofficial/about/" class="hover:text-pink-300" target="_blank" rel="noopener">Facebook</a>
+                <a href="https://x.com/poppincandyofcl" class="hover:text-pink-300" target="_blank" rel="noopener">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    <script src="index.js"></script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cartBtn = document.getElementById('cart-btn');
+    const cartModal = document.getElementById('cart-modal');
+    const closeCart = document.getElementById('close-cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-count').textContent = count;
+    }
+
+    function updateCartModal() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Your cart is empty.</p>';
+        cartTotal.textContent = '0.00';
+      } else {
+        let total = 0;
+        cartItems.innerHTML = '';
+        cart.forEach((item, index) => {
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('flex', 'justify-between', 'mb-2');
+
+          const itemName = document.createElement('span');
+          itemName.textContent = `${item.name} x${item.quantity}`;
+
+          const itemPrice = document.createElement('span');
+          itemPrice.textContent = `$${(item.price * item.quantity).toFixed(2)}`;
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Delete';
+          deleteBtn.classList.add('bg-pink-500', 'text-white', 'px-2', 'py-1', 'rounded');
+          deleteBtn.onclick = () => {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartModal();
+            updateCartCount();
+          };
+
+          itemDiv.appendChild(itemName);
+          itemDiv.appendChild(itemPrice);
+          itemDiv.appendChild(deleteBtn);
+          cartItems.appendChild(itemDiv);
+
+          total += item.price * item.quantity;
+        });
+        cartTotal.textContent = total.toFixed(2);
+      }
+    }
+
+    cartBtn.addEventListener('click', () => {
+      updateCartModal();
+      cartModal.classList.remove('hidden');
+    });
+
+    closeCart.addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+    });
+
+    updateCartCount();
+  });
+</script>
+<script>
+        // Highlight the current page in the navbar
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('index.html')) {
+          document.getElementById('nav-home').classList.add('bg-pink-700');
+        } else if (path.includes('products.html')) {
+          document.getElementById('nav-products').classList.add('bg-pink-700');
+        } else if (path.includes('about.html')) {
+          document.getElementById('nav-about').classList.add('bg-pink-700');
+        } else if (path.includes('contact.html')) {
+          document.getElementById('nav-contact').classList.add('bg-pink-700');
+        }
+      </script>
+      <script>
+  // Patch product images after they are loaded
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function() {
+      document.querySelectorAll('#product-list .product-image').forEach(img => {
+        img.classList.add('product-image');
+      });
+    }, 500); // Wait for products to load
+  });
+</script>
+</div>
+</body>
+</html>

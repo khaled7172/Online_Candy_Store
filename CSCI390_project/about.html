@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>About Us</title>
+    <style>
+        body {
+            background-image: url('images/background_image.avif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <nav class="bg-pink-600 shadow-lg">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-between">
+                    <a href="index.html" class="flex items-center gap-2">
+                        <img src="images/fav_icon.png" alt="Logo" class="w-8 h-8 rounded-full">
+                        <span class="text-white font-bold text-lg">Poppin Candy</span>
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="index.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-home">Home</a>
+                        <a href="products.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-products">Products</a>
+                        <a href="about.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-about">About Us</a>
+                        <a href="contact.html" class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-pink-500" id="nav-contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="pt-16 max-w-2xl mx-auto">
+        <h1 class="text-4xl text-center font-extrabold mb-6 text-pink-700">About Poppin Candy</h1>
+        <p class="text-lg text-center mb-4">Welcome to Poppin Candy! We are passionate about bringing you the sweetest and most delightful candy experience. Our mission is to provide a wide variety of high-quality candies that bring joy to every occasion. From classic favorites to unique treats, we have something for everyone!</p>
+        <img src="images/fav_icon.png" alt="Poppin Candy Team" class="mx-auto w-32 h-32 rounded-full shadow mb-4">
+        <section class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-pink-600">Our Journey</h2>
+            <p class="mb-2">Founded in 2025, Poppin Candy started as a small family business and has grown into a beloved destination for candy lovers. We believe in quality, fun, and making every day a little sweeter!</p>
+        </section>
+        <section class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-pink-600">Our Values</h2>
+            <ul class="list-none flex flex-col gap-2 items-center bg-transparent">
+                <li class="flex items-center gap-2"><span class="text-pink-500 text-2xl">🍬</span> Quality Ingredients</li>
+                <li class="flex items-center gap-2"><span class="text-yellow-400 text-2xl">🌟</span> Customer Happiness</li>
+                <li class="flex items-center gap-2"><span class="text-blue-400 text-2xl">🎉</span> Fun & Creativity</li>
+                <li class="flex items-center gap-2"><span class="text-green-400 text-2xl">🌱</span> Community & Care</li>
+            </ul>
+        </section>
+        <section class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-pink-600">Meet Our Team</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <div class="flex flex-col items-center">
+                    <img src="images/Alex_sweet.jpg" alt="Founder" class="w-20 h-20 rounded-full border-4 border-pink-300 mb-2 object-cover">
+                    <span class="font-bold">Alex Sweet</span>
+                    <span class="text-sm text-gray-600">Founder & Chief Candy Officer</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="images/The_candy_expert.jpg" alt="Candy Expert" class="w-20 h-20 rounded-full border-4 border-yellow-300 mb-2 object-cover">
+                    <span class="font-bold">Jamie Joy</span>
+                    <span class="text-sm text-gray-600">Candy Expert</span>
+                </div>
+            </div>
+        </section>
+        <section class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-pink-600">What Our Customers Say</h2>
+            <blockquote class="italic text-lg text-gray-700 mb-2">“Poppin Candy has the best selection of sweets! My kids love the variety and the flavors are amazing.”</blockquote>
+            <span class="font-semibold text-pink-700">- Mohammad Hamadani</span>
+        </section>
+        <div class="text-center mt-8">
+            <a href="contact.html" class="inline-block px-6 py-3 bg-pink-500 text-white rounded-full shadow hover:bg-pink-600 transition font-bold">Contact Us</a>
+        </div>
+    </div>
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="flex flex-col items-center gap-2">
+            <span>&copy; 2025 Poppin Candy. All rights reserved.</span>
+            <div class="flex gap-4">
+                <a href="https://www.instagram.com/poppincandyofficial/" class="hover:text-pink-300" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.facebook.com/poppincandyofficial/about/" class="hover:text-pink-300" target="_blank" rel="noopener">Facebook</a>
+                <a href="https://x.com/poppincandyofcl" class="hover:text-pink-300" target="_blank" rel="noopener">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Highlight the current page in the navbar
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('index.html')) {
+          document.getElementById('nav-home').classList.add('bg-pink-700');
+        } else if (path.includes('products.html')) {
+          document.getElementById('nav-products').classList.add('bg-pink-700');
+        } else if (path.includes('about.html')) {
+          document.getElementById('nav-about').classList.add('bg-pink-700');
+        } else if (path.includes('contact.html')) {
+          document.getElementById('nav-contact').classList.add('bg-pink-700');
+        }
+    </script>
+</body>
+</html>
