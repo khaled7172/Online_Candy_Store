@@ -50,11 +50,28 @@
         </div>
     </nav>
     <div class="pt-16">
-        <h1 class="text-4xl text-center font-extrabold mb-6 text-pink-700">Our Delicious Candy Selection</h1>
-        <div id="product-list" class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto py-8">
-            <!-- Products will be loaded dynamically from the database here -->
-        </div>
+    <h1 class="text-4xl text-center font-extrabold mb-6 text-pink-700">Our Delicious Candy Selection</h1>
+
+    <div class="w-full flex justify-center py-4 bg-pink-50">
+      <input id="product-search" type="text" placeholder="Search products by name..." class="p-2 border rounded-l">
     </div>
+
+    <div id="product-list" class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto py-8">
+        <!-- Products will be loaded dynamically from the database here -->
+    </div>
+</div>
+<div class="max-w-2xl mx-auto my-8 p-4 bg-pink-100 rounded shadow">
+  <h2 class="text-xl font-bold mb-2 text-pink-700">Add a New Candy</h2>
+  <form id="add-candy-form" class="flex flex-col gap-2">
+    <input name="name" type="text" placeholder="Candy Name" class="p-2 border rounded" required>
+    <input name="description" type="text" placeholder="Description" class="p-2 border rounded" required>
+    <input name="price" type="number" step="0.01" placeholder="Price" class="p-2 border rounded" required>
+    <input name="image_url" type="text" placeholder="Image file name (e.g. gummy_bears.jpg)" class="p-2 border rounded" required>
+    <button type="submit" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600">Add Candy</button>
+    <div id="add-candy-message" class="text-center text-green-700 font-bold mt-2"></div>
+  </form>
+</div>
+
     <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <div class="flex flex-col items-center gap-2">
             <span>&copy; 2025 Poppin Candy. All rights reserved.</span>
@@ -153,6 +170,82 @@
       });
     }, 500); // Wait for products to load
   });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('add-candy-form');
+  const message = document.getElementById('add-candy-message');
+  const productList = document.getElementById('product-list');
+
+  // Fetch and display all products
+  let allProducts = [];
+  function fetchProducts() {
+    fetch('getProducts.php')
+      .then(res => res.json())
+      .then(products => {
+        allProducts = products;
+        renderProducts(products);
+      });
+  }
+
+  function renderProducts(products) {
+    productList.innerHTML = '';
+    if (!products.length) {
+      productList.innerHTML = '<p class="text-center text-gray-500">No products found.</p>';
+      return;
+    }
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      let imgSrc = product.image_url;
+      if (!imgSrc.startsWith('images/')) {
+        imgSrc = 'images/' + imgSrc;
+      }
+      card.innerHTML = `
+        <img src="${imgSrc}" alt="${product.name}" class="product-image mb-2">
+        <h3 class="font-bold text-lg mb-1">${product.name}</h3>
+        <p class="mb-2">${product.description}</p>
+        <p class="font-bold text-green-700 mb-2">$${product.price}</p>
+        <button class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600">Add to Cart</button>
+      `;
+      productList.appendChild(card);
+    });
+  }
+
+  // Initial load
+  fetchProducts();
+
+  // Product search filter
+  const searchInput = document.getElementById('product-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      const query = searchInput.value.trim().toLowerCase();
+      const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+      renderProducts(filtered);
+    });
+  }
+
+  // Add candy form
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch('getProducts.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        message.textContent = 'Candy added!';
+        form.reset();
+        setTimeout(() => { fetchProducts(); message.textContent = ''; }, 700);
+      })
+      .catch(() => {
+        message.textContent = 'Error adding candy.';
+      });
+    });
+  }
+});
 </script>
 </div>
 </body>

@@ -87,16 +87,19 @@
         </div>
     </footer>
     <script>
-        // Highlight the current page in the navbar
-        const path = window.location.pathname.toLowerCase();
-        if (path.includes('index.html')) {
-          document.getElementById('nav-home').classList.add('bg-pink-700');
-        } else if (path.includes('products.html')) {
-          document.getElementById('nav-products').classList.add('bg-pink-700');
-        } else if (path.includes('about.html')) {
-          document.getElementById('nav-about').classList.add('bg-pink-700');
-        } else if (path.includes('contact.html')) {
-          document.getElementById('nav-contact').classList.add('bg-pink-700');
+        // Ensure the script runs only once
+        if (!window.navHighlightInitialized) {
+            window.navHighlightInitialized = true;
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('index.html')) {
+                document.getElementById('nav-home').classList.add('bg-pink-700');
+            } else if (path.includes('products.html')) {
+                document.getElementById('nav-products').classList.add('bg-pink-700');
+            } else if (path.includes('about.html')) {
+                document.getElementById('nav-about').classList.add('bg-pink-700');
+            } else if (path.includes('contact.html')) {
+                document.getElementById('nav-contact').classList.add('bg-pink-700');
+            }
         }
     </script>
 </body>

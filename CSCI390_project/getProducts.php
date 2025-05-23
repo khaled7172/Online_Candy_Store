@@ -1,33 +1,36 @@
 <?php
-// Database connection settings
+header('Content-Type: application/json');
+
 $host = 'localhost';
 $username = 'root';
-$password = ''; // Default for WAMP
+$password = '';
 $database = 'candy_database';
 
-// Create a connection
 $conn = new mysqli($host, $username, $password, $database);
-
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    echo json_encode(['error' => 'Connection failed']);
+    exit;
 }
 
-// Fetch products from the database
-$sql = "SELECT id, name, description, price, image_url FROM products";
-$result = $conn->query($sql);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Example: insert a hardcoded product (id is auto-incremented, so use NULL or omit it)
+    $sql = "INSERT INTO products (name, description, price, image_url) VALUES ('Sample Candy', 'A sweet sample candy.', 1.99, 'sample_candy.jpg')";
+    if ($conn->query($sql) === TRUE) {
+        echo '<h2>Product inserted with direct SQL.</h2>';
+    } else {
+        echo '<h2>Error: ' . $conn->error . '</h2>';
+    }
+    exit;
+}
 
+// Fetch all products
+$sql = "SELECT * FROM products";
+$result = $conn->query($sql);
 $products = [];
-if ($result->num_rows > 0) {
+if ($result) {
     while ($row = $result->fetch_assoc()) {
         $products[] = $row;
     }
 }
-
-// Return products as JSON
-header('Content-Type: application/json');
 echo json_encode($products);
-
-// Close the connection
 $conn->close();
-?>
