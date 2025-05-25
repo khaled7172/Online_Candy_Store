@@ -1,16 +1,6 @@
 <?php
 header('Content-Type: application/json');
-
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'candy_database';
-
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-    echo json_encode(['error' => 'Connection failed']);
-    exit;
-}
+include 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Example: insert a hardcoded product (id is auto-incremented, so use NULL or omit it)
